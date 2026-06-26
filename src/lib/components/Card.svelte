@@ -3,13 +3,40 @@
 		title: string;
 		description?: string;
 		cardCount?: number;
+		highlighted?: boolean;
 	}
 
-	let { title, description = 'No description provided', cardCount = 0 }: CardProps = $props();
+	let { title, description = 'No description provided', cardCount = 0, highlighted = false }: CardProps = $props();
 </script>
 
-<div style="border: 2px solid #333; padding: 15px; margin: 10px 0; border-radius: 8px;">
-	<h3 style="margin: 0 0 10px 0;">{title}</h3>
-	<p style="color: #666; margin: 0 0 10px 0;">{description}</p>
-	<p style="color: #999; font-size: 14px; margin: 0;">Cards: {cardCount}</p>
+<div class="card" class:highlighted={highlighted}>
+	<h3>{title}</h3>
+	<p class="description">{description}</p>
+	<p class="count">Cards: {cardCount}</p>
 </div>
+
+<style>
+	.card {
+		border: 2px solid #333;
+		padding: 15px;
+		margin: 10px 0;
+		border-radius: 8px;
+		background: white;
+	}
+
+	.card.highlighted {
+		background: #fffacd;
+		border-color: #ffd700;
+	}
+
+	.description {
+		color: #666;
+		margin: 10px 0;
+	}
+
+	.count {
+		color: #999;
+		font-size: 14px;
+		margin: 0;
+	}
+</style>
