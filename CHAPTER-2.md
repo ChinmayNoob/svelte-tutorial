@@ -40,3 +40,56 @@ import Card from '$lib/components/Card.svelte';
 - Props destructured directly in `$props()`
 - Script section separate from template
 - More intuitive file structure
+
+---
+
+# Chapter 8: Multiple Props with TypeScript Interfaces
+
+## What you learned:
+- TypeScript interfaces for type-safe props
+- Optional props with `?` syntax
+- Default values using `=` in destructuring
+- Multiple props with different data types
+
+## React comparison:
+```jsx
+// React
+interface CardProps {
+  title: string;
+  description?: string;
+  cardCount?: number;
+}
+
+export default function Card({ title, description = 'No description', cardCount = 0 }: CardProps) {
+  return (
+    <div>
+      <h3>{title}</h3>
+      <p>{description}</p>
+      <p>Cards: {cardCount}</p>
+    </div>
+  );
+}
+
+// Svelte 5
+<script lang="ts">
+  interface CardProps {
+    title: string;
+    description?: string;
+    cardCount?: number;
+  }
+
+  let { title, description = 'No description provided', cardCount = 0 }: CardProps = $props();
+</script>
+
+<div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+  <p>Cards: {cardCount}</p>
+</div>
+```
+
+## Key differences:
+- Same TypeScript syntax for interfaces
+- Default values set directly in destructuring
+- Props accessed directly without `props.` prefix
+- Cleaner, more readable component code
