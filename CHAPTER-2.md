@@ -93,3 +93,109 @@ export default function Card({ title, description = 'No description', cardCount 
 - Default values set directly in destructuring
 - Props accessed directly without `props.` prefix
 - Cleaner, more readable component code
+
+---
+
+# Chapter 9: Task Component with Two-Way Binding
+
+## What you learned:
+- Boolean props for checkbox state
+- Two-way binding with `bind:checked`
+- Reactive state synchronization between parent and child
+- Conditional styling based on prop values
+
+## React comparison:
+```jsx
+// React
+export default function Task({ text, completed, onCompleted }) {
+  return (
+    <div>
+      <input
+        type="checkbox"
+        checked={completed}
+        onChange={(e) => onCompleted(e.target.checked)}
+      />
+      <span style={{ textDecoration: completed ? 'line-through' : 'none' }}>
+        {text}
+      </span>
+    </div>
+  );
+}
+
+// Svelte 5
+<script lang="ts">
+  let { text, completed = false } = $props();
+</script>
+
+<div>
+  <input type="checkbox" bind:checked={completed} />
+  <span style="text-decoration: completed ? 'line-through' : 'none';">
+    {text}
+  </span>
+</div>
+```
+
+## Key differences:
+- `bind:checked` replaces `checked` + `onChange`
+- No need for callback functions
+- Automatic two-way synchronization
+- Much cleaner syntax for form elements
+
+---
+
+# Chapter 10: Component Events & Parent-Child Communication
+
+## What you learned:
+- Event handling via callback props in Svelte 5
+- Parent functions passed as props to children
+- Child components trigger parent actions
+- No need for `createEventDispatcher()` in modern Svelte 5
+
+## React comparison:
+```jsx
+// React
+export default function Task({ text, completed, onDelete }) {
+  return (
+    <div>
+      <input type="checkbox" checked={completed} />
+      <span>{text}</span>
+      <button onClick={onDelete}>✕</button>
+    </div>
+  );
+}
+
+// Parent component
+function App() {
+  const handleDelete = (id) => {
+    setTasks(tasks.filter(t => t.id !== id));
+  };
+
+  return <Task onDelete={() => handleDelete(task.id)} />;
+}
+
+// Svelte 5
+<script lang="ts">
+  let { text, completed = false, onDelete } = $props();
+</script>
+
+<div>
+  <input type="checkbox" bind:checked={completed} />
+  <span>{text}</span>
+  <button onclick={onDelete}>✕</button>
+</div>
+
+// Parent component
+<script lang="ts">
+  function deleteTask(id: number) {
+    tasks = tasks.filter(task => task.id !== id);
+  }
+</script>
+
+<Task onDelete={() => deleteTask(task.id)} />
+```
+
+## Key differences:
+- Callback functions work the same way as React
+- No need for `createEventDispatcher()` in Svelte 5
+- Cleaner prop naming (`onDelete` vs dispatching custom events)
+- More intuitive parent-child communication
